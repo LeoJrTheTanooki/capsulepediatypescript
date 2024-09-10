@@ -1,7 +1,7 @@
 import React from "react";
-import { IpokeProps } from "../Interfaces/Interfaces";
+import { IPokeProps } from "../Interfaces/Interfaces";
 
-const DexFetchComponent = (props: IpokeProps) => {
+const DexFetchComponent = (props: IPokeProps) => {
 
     
 

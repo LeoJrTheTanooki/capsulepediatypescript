@@ -3,7 +3,6 @@ import logo from "./logo.svg";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
 import UnovaDexComponent from "./components/UnovaDexComponent";
-import { PokeApi } from "./Dataservices/DataServices";
 
 function App() {
 

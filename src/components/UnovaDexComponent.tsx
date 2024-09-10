@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { IpokeProps, Ipokemon } from "../Interfaces/Interfaces";
-import { PokeApi } from "../Dataservices/DataServices";
+import { IPokeProps, IPokemon } from "../Interfaces/Interfaces";
+import { apiFetch } from "../Dataservices/DataServices";
 import DexFetchComponent from "./DexFetchComponent";
 
 const UnovaDexComponent = () => {
-  const pokeDefault: Ipokemon = {
+  const pokeDefault: IPokemon = {
     // Within the JSON
     abilities: [
       {
@@ -45,20 +45,65 @@ const UnovaDexComponent = () => {
     location_area_encounters: "",
   };
 
-  const [pokemon, setPokemon] = useState<Ipokemon>(pokeDefault);
+  const [pokemonData, setPokemonData] = useState<IPokemon>(pokeDefault);
+  const [speciesData, setSpeciesData] = useState<any>();
+  const [encounterData, setEncounterData] = useState<any>();
+
+  const dataFetch = async (api: string) => {
+    const data = await apiFetch(api);
+    return data;
+  };
 
   useEffect(() => {
-    const getData = async () => {
-      const pokeData = await PokeApi();
-      setPokemon(pokeData);
-      // setPokemon();
+    const loadData = async () => {
+      const data = await dataFetch("https://pokeapi.co/api/v2/pokemon/pikachu");
+      setPokemonData(data);
     };
-    getData();
+    loadData();
   }, []);
+
+  useEffect(() => {
+    if (pokemonData.species.url && pokemonData.location_area_encounters) {
+      const loadMoreData = async () => {
+        const species = await dataFetch(pokemonData.species.url);
+        const location = await dataFetch(pokemonData.location_area_encounters);
+        console.log(species.flavor_text_entries);
+        console.log(location);
+        setSpeciesData(species);
+        setEncounterData(location);
+      };
+      loadMoreData();
+    }
+  }, [pokemonData]);
 
   return (
     <div className="flex justify-center">
-      <DexFetchComponent pokemonArt={pokemon.sprites.other["official-artwork"].front_default} pokemonAbilities={pokemon.abilities[0].ability.name} pokemonArea={pokemon.location_area_encounters} pokemonDexEntry={pokemon.species.url} pokemonEvolutions={pokemon.species.url} pokemonID={pokemon.id} pokemonMoves={pokemon.moves[0].move.name} pokemonName={pokemon.name} pokemonType={pokemon.types[0].type.name} />
+      <DexFetchComponent
+        // Capitalize name
+        pokemonName={pokemonData ? pokemonData.name : ""}
+        // Validate ID for different forms
+        pokemonID={pokemonData ? pokemonData.id : ""}
+        // Map out type names
+        pokemonType={pokemonData ? pokemonData.types[0].type.name : ""}
+        // Look back at vanilla JS version to figure out how this was possible
+        pokemonEvolutions={pokemonData ? pokemonData.species.url : ""}
+        // Fetch from url
+        pokemonArea={pokemonData ? pokemonData.location_area_encounters : ""}
+        // Map out abilities
+        pokemonAbilities={
+          pokemonData ? pokemonData.abilities[0].ability.name : ""
+        }
+        // Map out moves
+        pokemonMoves={pokemonData ? pokemonData.moves[0].move.name : ""}
+        // Fetch from url
+        pokemonDexEntry={pokemonData ? pokemonData.species.url : ""}
+        // Add toggle for different versions
+        pokemonArt={
+          pokemonData
+            ? pokemonData.sprites.other["official-artwork"].front_default
+            : ""
+        }
+      />
     </div>
   );
 };

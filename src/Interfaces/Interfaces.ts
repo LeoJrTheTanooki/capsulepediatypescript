@@ -1,4 +1,4 @@
-export interface Ipokemon {
+export interface IPokemon {
   // Within the JSON
   abilities: [
     {
@@ -39,43 +39,50 @@ export interface Ipokemon {
   location_area_encounters: string;
 }
 
-export interface Ispecies {
-  evolution_chain: {
-    url: string;
-  };
+export interface ISpecies {
+  id: number;
+  name: string;
+  order: number;
+  gender_rate: number;
+  capture_rate: number;
+  base_happiness: number;
+  is_baby: boolean;
+  is_legendary: boolean;
+  is_mythical: boolean;
+  hatch_counter: number;
+  has_gender_differences: boolean;
+  forms_switchable: boolean;
+  growth_rate: any;
+  pokedex_numbers: any[];
+  egg_groups: any[];
+  color: any;
+  shape: any;
+  evolves_from_species: any;
+  evolution_chain: IEvolutionChain;
+  habitat: any;
+  generation: any;
+  names: any[];
+  pal_park_encounters: any[];
+  flavor_text_entries: any[];
+  form_descriptions: any[];
+  genera: any[];
+  varieties: any[];
 }
 
-export interface Ievolution {
-  chain: {
-    // stage 1
-    species: {
-      name: string;
-    };
-    evolves_to: [
-      {
-        // stage 2
-        species: {
-          name: string;
-        };
-
-        evolves_to: [
-          // stage 3
-          {
-            species: {
-              name: string;
-            };
-          }
-        ];
-      }
-    ];
-  };
+export interface IEvolutionChain {
+  id	:	number
+  baby_trigger_item	:	any
+  chain	:	IChainLink
 }
 
-export interface Iarea {
-  location_area: { name: string };
+export interface IChainLink {
+  is_baby	:	boolean
+  species	:	any
+  evolution_details	:	any[]
+  evolves_to	:	IChainLink[]
 }
 
-export interface IpokeProps {
+export interface IPokeProps {
   pokemonArt: string;
   pokemonDexEntry: string;
   pokemonName: string;

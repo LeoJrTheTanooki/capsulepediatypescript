@@ -1,8 +1,7 @@
-import { Ipokemon } from "../Interfaces/Interfaces";
+import { IPokemon } from "../Interfaces/Interfaces";
 
-export const PokeApi = async () => {
-  const response = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
-  const data: Ipokemon[] = await response.json();
-  console.log(data);
-  return data[0];
+export const apiFetch = async (api: string) => {
+  const response = await fetch(api);
+  const data = await response.json();
+  return data;
 };
