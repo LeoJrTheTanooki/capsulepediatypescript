@@ -19,7 +19,7 @@ const DexFetchComponent = (props: IPokeProps) => {
           />
         </div>
         <div>
-          <p className="font-bold p-5">{props.pokemonDexEntry}</p>
+          <div className="p-5 overflow-y-auto flex flex-wrap">{props.pokemonDexEntry}</div>
         </div>
       </div>
       <div className="container w-5/6 self-stretch bg-neutral-300">
@@ -31,17 +31,21 @@ const DexFetchComponent = (props: IPokeProps) => {
         </div>
         <div className="bg-neutral-300 p-5">
           <p>
-            Type(s): <span>{props.pokemonType}</span>
+            {props.pokemonType && props.pokemonType.length > 1 ? "Types" : "Type"}: <span>{props.pokemonType ? props.pokemonType.join("/") : ''}</span>
           </p>
         </div>
-        <div className="bg-white p-5">
+        <div className="bg-white p-5 overflow-y-auto">
           <p>
-            Evolutions: <span>{props.pokemonEvolutions}</span>
+            Evolution Line: 
+            <br />
+            <span>{props.pokemonEvolutions}</span>
           </p>
         </div>
         <div className="bg-neutral-300 overflow-y-auto max-h-32 p-5">
           <p>
-            Area: <span>{props.pokemonArea}</span>
+            Areas: <span>
+              {props.pokemonArea}
+            </span>
           </p>
         </div>
         <div className="bg-white p-5">

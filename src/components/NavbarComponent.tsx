@@ -4,23 +4,22 @@ import React from "react";
 const NavbarComponent = () => {
   return (
     <Flowbite>
-      <nav className="bg-gradient-to-b from-neutral-500 to-white dark:to-black to-40% border-gray-200">
+      <nav className="bg-gradient-to-b from-neutral-500 to-black to-40% border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a
-            href="#"
+          <button
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
               Capsulepedia
             </span>
-          </a>
+          </button>
           <div className="flex">
             <button
               type="button"
               data-collapse-toggle="navbar-search"
               aria-controls="navbar-search"
               aria-expanded="false"
-              className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"
+              className="md:hidden text-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"
             >
               <svg
                 className="w-5 h-5"
@@ -42,7 +41,7 @@ const NavbarComponent = () => {
             <button
               data-collapse-toggle="navbar-search"
               type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
               aria-controls="navbar-search"
               aria-expanded="false"
             >
@@ -71,7 +70,7 @@ const NavbarComponent = () => {
             <div className="relative mt-3 md:hidden">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  className="w-4 h-4 text-gray-400"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -88,14 +87,14 @@ const NavbarComponent = () => {
               </div>
               <input
                 type="text"
-                className="pokemonInput block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="pokemonInput block w-full p-2 ps-10 text-sm border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search..."
               />
             </div>
             <div className="relative hidden md:block mx-5">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  className="w-4 h-4 text-gray-400"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -113,34 +112,29 @@ const NavbarComponent = () => {
               </div>
               <input
                 type="text"
-                className="pokemonInput block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="pokemonInput block w-full p-2 ps-10 text-sm border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search..."
               />
             </div>
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:border-gray-700 text-center">
+            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 border-gray-700 text-center">
               <li className="mb-5 md:mb-0">
-                <a
-                  href="#"
-                  className="py-2 px-3 text-gray-900 dark:text-neutral-400 dark:hover:text-white dark:border-neutral-400 border-4 rounded-lg dark:hover:border-white text-center inline-block"
+                <button
+                  className="py-2 px-3 text-neutral-400 hover:text-white border-neutral-400 border-4 rounded-lg hover:border-white text-center inline-block"
                   id="getRandomBtn"
                 >
                   Random
-                </a>
+                </button>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="py-2 px-3 text-gray-900 dark:text-neutral-400 dark:hover:text-white dark:border-neutral-400 border-4 rounded-lg dark:hover:border-white text-center inline-block"
+                <button
+                  className="py-2 px-3 text-neutral-400 hover:text-white border-neutral-400 border-4 rounded-lg hover:border-white text-center inline-block"
                   data-drawer-target="drawer-example"
                   data-drawer-show="drawer-example"
                   aria-controls="drawer-example"
                   id="getFavoritesBtn"
                 >
                   Favorites
-                </a>
-              </li>
-              <li>
-                <DarkThemeToggle />
+                </button>
               </li>
             </ul>
           </div>

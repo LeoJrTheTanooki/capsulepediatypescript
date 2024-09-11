@@ -58,28 +58,73 @@ export interface ISpecies {
   color: any;
   shape: any;
   evolves_from_species: any;
-  evolution_chain: IEvolutionChain;
+  evolution_chain: {
+    url: string;
+  };
   habitat: any;
   generation: any;
   names: any[];
   pal_park_encounters: any[];
-  flavor_text_entries: any[];
+  flavor_text_entries: IFlavorText[];
   form_descriptions: any[];
   genera: any[];
   varieties: any[];
 }
 
+export interface IFlavorText {
+  flavor_text: string;
+  language: {
+    name: string;
+    url: string;
+  };
+  version: {
+    name: string;
+    url: string;
+  };
+}
+
+export interface ILanguage {
+  id: number;
+  name: string;
+  official: boolean;
+  iso639: string;
+  iso3166: string;
+  names: IName[];
+}
+
+export interface IName {
+  name: string;
+  language: ILanguage;
+}
+
 export interface IEvolutionChain {
-  id	:	number
-  baby_trigger_item	:	any
-  chain	:	IChainLink
+  id: number;
+  baby_trigger_item: any;
+  chain: IChainLink;
 }
 
 export interface IChainLink {
-  is_baby	:	boolean
-  species	:	any
-  evolution_details	:	any[]
-  evolves_to	:	IChainLink[]
+  is_baby: boolean;
+  species: {
+    name: string;
+    url: string;
+  };
+  evolution_details: any[];
+  evolves_to: IChainLink[];
+}
+
+export interface ILocationAreaEncounter {
+  location_area: {
+    name: string;
+    url: string;
+  };
+  version_details: IVersionEncounterDetail[];
+}
+
+export interface IVersionEncounterDetail {
+  version: any;
+  max_chance: number;
+  encounter_details: any[];
 }
 
 export interface IPokeProps {
@@ -87,8 +132,8 @@ export interface IPokeProps {
   pokemonDexEntry: string;
   pokemonName: string;
   pokemonID: string;
-  pokemonType: string;
-  pokemonEvolutions: string;
+  pokemonType: Array<string>;
+  pokemonEvolutions: any;
   pokemonArea: string;
   pokemonAbilities: string;
   pokemonMoves: string;
