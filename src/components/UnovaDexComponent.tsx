@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  IChainLink,
   IEvolutionChain,
   ILocationAreaEncounter,
   IQueryProps,
   IPokemon,
   ISpecies,
 } from "../Interfaces/Interfaces";
-import { apiFetch } from "../Dataservices/DataServices";
+import { setData } from "../Dataservices/DataServices";
 import DexFetchComponent from "./DexFetchComponent";
 
 const UnovaDexComponent = (props: IQueryProps) => {
@@ -27,29 +26,12 @@ const UnovaDexComponent = (props: IQueryProps) => {
   const [pokemonDexEntry, setPokemonDexEntry] = useState<any>();
   const [pokemonArt, setPokemonArt] = useState<any>();
 
-  const dataFetch = async (api: string) => {
-    const data = await apiFetch(api);
-    return data;
-  };
-
-  const setData = useCallback(
-    async (
-      setParam: React.Dispatch<any>,
-      api: string,
-      query: string = "",
-      endpoint: string = "",
-      logToConsole: boolean = false
-    ) => {
-      try {
-        const dataToSet = await dataFetch(api + query + endpoint);
-        setParam(dataToSet);
-        if (logToConsole) console.log(dataToSet);
-      } catch (error) {
-        console.error("An error has occured", error);
-      }
-    },
-    []
-  );
+  function Capitalizer(param: string) {
+    param = param
+      .replace(new RegExp("-", "gi"), " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+    return param;
+  }
 
   useEffect(() => {
     setData(setPokemonData, "https://pokeapi.co/api/v2/pokemon/", props.query);
@@ -59,11 +41,11 @@ const UnovaDexComponent = (props: IQueryProps) => {
       props.query,
       "/encounters"
     );
-  }, [props.query, setData]);
+  }, [props.query]);
 
   useEffect(() => {
     if (pokemonData && encounterData && pokemonData.sprites) {
-      setPokemonName(pokemonData.name);
+      setPokemonName(Capitalizer(pokemonData.name));
       setPokemonID(pokemonData.id);
       setPokemonArt(
         pokemonData.sprites.other["official-artwork"].front_default
@@ -72,26 +54,26 @@ const UnovaDexComponent = (props: IQueryProps) => {
       const locationNames = encounterData.map((e: ILocationAreaEncounter) => {
         return e.location_area.name;
       });
-      setPokemonArea(locationNames.join(", "));
+      setPokemonArea(locationNames.map(e => Capitalizer(e)).join(", "));
 
       const abilities = pokemonData.abilities.map((e) => {
         return e.ability.name;
       });
-      setPokemonAbilities(abilities.join(", "));
+      setPokemonAbilities(abilities.map(e => Capitalizer(e)).join(", "));
 
       const moves = pokemonData.moves.map((e) => {
         return e.move.name;
       });
-      setPokemonMoves(moves.join(", "));
+      setPokemonMoves(moves.map(e => Capitalizer(e)).join(", "));
 
       const types = pokemonData.types.map((e) => {
-        return e.type.name;
+        return Capitalizer(e.type.name);
       });
       setPokemonType(types);
 
       setData(setSpeciesData, pokemonData.species.url, "", "");
     }
-  }, [pokemonData, encounterData, setData]);
+  }, [pokemonData, encounterData]);
 
   useEffect(() => {
     if (speciesData) {
@@ -109,7 +91,7 @@ const UnovaDexComponent = (props: IQueryProps) => {
         .map((e, idx) => {
           return (
             <div className=" pb-2" key={idx}>
-              <p className="font-bold">{e.version.name}</p>
+              <p className="font-bold">{Capitalizer(e.version.name)}</p>
               <p>{e.flavor_text}</p>
               <hr></hr>
             </div>
@@ -117,7 +99,7 @@ const UnovaDexComponent = (props: IQueryProps) => {
         });
       setPokemonDexEntry(dexEntries);
     }
-  }, [setData, speciesData]);
+  }, [speciesData]);
 
   useEffect(() => {
     if (pokemonEvolutions) {
@@ -127,21 +109,21 @@ const UnovaDexComponent = (props: IQueryProps) => {
             if (e.evolves_to.length > 0) {
               return e.evolves_to.flatMap((f) => {
                 return (
-                  pokemonEvolutions.chain.species.name +
+                  Capitalizer(pokemonEvolutions.chain.species.name) +
                   " -> " +
-                  e.species.name +
+                  Capitalizer(e.species.name) +
                   " -> " +
-                  f.species.name
+                  Capitalizer(f.species.name)
                 );
               });
             } else {
               return (
-                pokemonEvolutions.chain.species.name + " -> " + e.species.name
+                Capitalizer(pokemonEvolutions.chain.species.name) + " -> " + Capitalizer(e.species.name)
               );
             }
           });
         } else {
-          return [pokemonEvolutions.chain.species.name];
+          return [Capitalizer(pokemonEvolutions.chain.species.name)];
         }
       };
 

@@ -73,14 +73,8 @@ export interface ISpecies {
 
 export interface IFlavorText {
   flavor_text: string;
-  language: {
-    name: string;
-    url: string;
-  };
-  version: {
-    name: string;
-    url: string;
-  };
+  language: INamedAPIResource;
+  version: INamedAPIResource;
 }
 
 export interface ILanguage {
@@ -105,19 +99,13 @@ export interface IEvolutionChain {
 
 export interface IChainLink {
   is_baby: boolean;
-  species: {
-    name: string;
-    url: string;
-  };
+  species: INamedAPIResource;
   evolution_details: any[];
   evolves_to: IChainLink[];
 }
 
 export interface ILocationAreaEncounter {
-  location_area: {
-    name: string;
-    url: string;
-  };
+  location_area: INamedAPIResource;
   version_details: IVersionEncounterDetail[];
 }
 
@@ -140,6 +128,18 @@ export interface IPokeProps {
 }
 
 export interface IQueryProps {
-  query?: string
+  query: string
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface INamedAPIResource {
+  name: string;
+  url: string;
+}
+
+export interface INamedAPIResourceList {
+  count: number;
+  next: string;
+  previous: string;
+  results: INamedAPIResource[];
 }

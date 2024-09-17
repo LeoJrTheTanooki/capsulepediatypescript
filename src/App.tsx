@@ -7,10 +7,6 @@ import UnovaDexComponent from "./components/UnovaDexComponent";
 function App() {
   const [queryHook, setQueryHook] = useState("");
 
-  useEffect(() => {
-    console.log(queryHook);
-  }, [queryHook]);
-
   return (
     <div className=" flex flex-col h-screen">
       <NavbarComponent query={queryHook} setQuery={setQueryHook} />

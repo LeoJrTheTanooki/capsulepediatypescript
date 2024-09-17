@@ -1,10 +1,52 @@
-import { DarkThemeToggle, Flowbite } from "flowbite-react";
-import React, { useState } from "react";
-import { IQueryProps } from "../Interfaces/Interfaces";
-
-
+import { Flowbite } from "flowbite-react";
+import {
+  INamedAPIResource,
+  INamedAPIResourceList,
+  IQueryProps,
+} from "../Interfaces/Interfaces";
+import { useEffect, useState } from "react";
+import { setData } from "../Dataservices/DataServices";
 
 const NavbarComponent = (props: IQueryProps) => {
+  const [allPokemon, setAllPokemon] = useState<INamedAPIResourceList>();
+  const [filteredPokemon, setFilteredPokemon] = useState<INamedAPIResource[]>();
+  const [inputFocus, setInputFocus] = useState<boolean>(false);
+
+  // Make Query fetch via link rather than name
+  // Remove live search
+  // Add favorite Pokemon to localStorage
+  // Create new hamburger menu for navbar
+  // Create homepage for list of every pokemon up to Gen 5
+  // Create loading animations
+  // Create error assets
+  // Create new favicon
+  // Create different styles based on older gens
+  // If allowing future Pokemon, frame missing information as incomplete research
+
+  useEffect(() => {
+    setData(
+      setAllPokemon,
+      "https://pokeapi.co/api/v2/pokemon/?limit=100000&offset=0"
+    );
+  }, []);
+
+  useEffect(() => {
+    if (allPokemon && props.query) {
+      setFilteredPokemon(
+        allPokemon.results.filter((e) => {
+          return e.name.toLowerCase().replace(new RegExp("-", "gi"), " ").includes(props.query.toLowerCase());
+        }).map((e) => {
+          e.name = e.name.replace(new RegExp("-", "gi"), " ").replace(/\b\w/g, (c) => c.toUpperCase())
+          return e
+        })
+      );
+    }
+  }, [allPokemon, props.query]);
+
+  useEffect(() => {
+    console.log(filteredPokemon);
+  }, [filteredPokemon]);
+
   return (
     <Flowbite>
       <nav className="bg-gradient-to-b from-neutral-500 to-black to-40% border-gray-200">
@@ -64,10 +106,12 @@ const NavbarComponent = (props: IQueryProps) => {
               </svg>
             </button>
           </div>
+
           <div
             className="items-center justify-between hidden w-full md:flex md:w-auto"
             id="navbar-search"
           >
+            {/* Mobile Input */}
             <div className="relative mt-3 md:hidden">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
@@ -87,10 +131,9 @@ const NavbarComponent = (props: IQueryProps) => {
                 </svg>
               </div>
 
-              {/* Mobile Input */}
               <input
                 type="text"
-                className="pokemonInput block w-full p-2 ps-10 text-sm border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full p-2 ps-10 text-sm border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search..."
                 onChange={(e) => {
                   props.setQuery(e.target.value);
@@ -98,6 +141,8 @@ const NavbarComponent = (props: IQueryProps) => {
                 value={props.query}
               />
             </div>
+
+            {/* Desktop Input */}
             <div className="relative hidden md:block mx-5">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
@@ -118,17 +163,45 @@ const NavbarComponent = (props: IQueryProps) => {
                 <span className="sr-only">Search icon</span>
               </div>
 
-              {/* Desktop Input */}
               <input
                 type="text"
-                className="pokemonInput block w-full p-2 ps-10 text-sm border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full p-2 ps-10 text-sm border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search..."
                 onChange={(e) => {
                   props.setQuery(e.target.value);
                 }}
                 value={props.query}
+                onFocus={() => setInputFocus(true)}
+
+                // onBlur={() => {
+                //   setInputFocus(false)
+                // }}
               />
             </div>
+            <div
+              className={`bg-white absolute flex flex-col mx-5 w-[235px] top-14${
+                !inputFocus ? " hidden hover:block" : ""
+              }`}
+            >
+              {filteredPokemon ? (
+                filteredPokemon?.map((e) => {
+                  return (
+                    <div
+                      className="border cursor-pointer hover:bg-neutral-300"
+                      onClick={() => {
+                        props.setQuery(e.name.toLowerCase().replace(new RegExp(" ", "gi"), "-"));
+                        setInputFocus(false);
+                      }}
+                    >
+                      {e.name}
+                    </div>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+            </div>
+
             <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 border-gray-700 text-center">
               <li className="mb-5 md:mb-0">
                 <button
