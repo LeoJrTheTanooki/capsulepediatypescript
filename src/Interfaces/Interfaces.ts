@@ -128,8 +128,10 @@ export interface IPokeProps {
 }
 
 export interface IQueryProps {
-  query: string
+  query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+  queryLink?: string;
+  setQueryLink?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface INamedAPIResource {

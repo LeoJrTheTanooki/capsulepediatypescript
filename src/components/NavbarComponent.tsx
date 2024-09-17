@@ -33,19 +33,22 @@ const NavbarComponent = (props: IQueryProps) => {
   useEffect(() => {
     if (allPokemon && props.query) {
       setFilteredPokemon(
-        allPokemon.results.filter((e) => {
-          return e.name.toLowerCase().replace(new RegExp("-", "gi"), " ").includes(props.query.toLowerCase());
-        }).map((e) => {
-          e.name = e.name.replace(new RegExp("-", "gi"), " ").replace(/\b\w/g, (c) => c.toUpperCase())
-          return e
-        })
+        allPokemon.results
+          .filter((e) => {
+            return e.name
+              .toLowerCase()
+              .replace(new RegExp("-", "gi"), " ")
+              .includes(props.query.toLowerCase());
+          })
+          .map((e) => {
+            e.name = e.name
+              .replace(new RegExp("-", "gi"), " ")
+              .replace(/\b\w/g, (c) => c.toUpperCase());
+            return e;
+          })
       );
     }
   }, [allPokemon, props.query]);
-
-  useEffect(() => {
-    console.log(filteredPokemon);
-  }, [filteredPokemon]);
 
   return (
     <Flowbite>
@@ -173,9 +176,9 @@ const NavbarComponent = (props: IQueryProps) => {
                 value={props.query}
                 onFocus={() => setInputFocus(true)}
 
-                // onBlur={() => {
-                //   setInputFocus(false)
-                // }}
+                onBlur={() => {
+                  setInputFocus(false)
+                }}
               />
             </div>
             <div
@@ -184,13 +187,14 @@ const NavbarComponent = (props: IQueryProps) => {
               }`}
             >
               {filteredPokemon ? (
-                filteredPokemon?.map((e) => {
+                filteredPokemon?.map((e, idx) => {
                   return (
                     <div
+                      key={idx}
                       className="border cursor-pointer hover:bg-neutral-300"
                       onClick={() => {
-                        props.setQuery(e.name.toLowerCase().replace(new RegExp(" ", "gi"), "-"));
                         setInputFocus(false);
+                        if (props.setQueryLink) props.setQueryLink(e.url);
                       }}
                     >
                       {e.name}
@@ -206,14 +210,20 @@ const NavbarComponent = (props: IQueryProps) => {
               <li className="mb-5 md:mb-0">
                 <button
                   className="py-2 px-3 text-neutral-400 hover:text-white border-neutral-400 border-4 rounded-lg hover:border-white text-center inline-block"
-                  id="getRandomBtn"
+                  onClick={() => {
+                    const randomNum = Math.floor(Math.random() * 649) + 1;
+                    if (props.setQueryLink)
+                      props.setQueryLink(
+                        "https://pokeapi.co/api/v2/pokemon/" + randomNum
+                      );
+                  }}
                 >
                   Random
                 </button>
               </li>
               <li>
                 <button
-                  className="py-2 px-3 text-neutral-400 hover:text-white border-neutral-400 border-4 rounded-lg hover:border-white text-center inline-block"
+                  className="py-2 px-3 text-neutral-400 hover:text-white border-neutral-400 border-4 rounded-lg hover:border-white text-center inline-block cursor-not-allowed"
                   data-drawer-target="drawer-example"
                   data-drawer-show="drawer-example"
                   aria-controls="drawer-example"

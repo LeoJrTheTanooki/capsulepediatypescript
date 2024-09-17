@@ -33,15 +33,27 @@ const UnovaDexComponent = (props: IQueryProps) => {
     return param;
   }
 
+  // useEffect(() => {
+  //   setData(setPokemonData, "https://pokeapi.co/api/v2/pokemon/", props.query);
+  //   setData(
+  //     setEncounterData,
+  //     "https://pokeapi.co/api/v2/pokemon/",
+  //     props.query,
+  //     "/encounters"
+  //   );
+  // }, [props.query]);
+
   useEffect(() => {
-    setData(setPokemonData, "https://pokeapi.co/api/v2/pokemon/", props.query);
-    setData(
-      setEncounterData,
-      "https://pokeapi.co/api/v2/pokemon/",
-      props.query,
-      "/encounters"
-    );
-  }, [props.query]);
+    if (props.queryLink) {
+      setData(setPokemonData, props.queryLink);
+      setData(
+        setEncounterData,
+
+        props.queryLink,
+        "/encounters"
+      );
+    }
+  }, [props.queryLink]);
 
   useEffect(() => {
     if (pokemonData && encounterData && pokemonData.sprites) {
@@ -54,17 +66,17 @@ const UnovaDexComponent = (props: IQueryProps) => {
       const locationNames = encounterData.map((e: ILocationAreaEncounter) => {
         return e.location_area.name;
       });
-      setPokemonArea(locationNames.map(e => Capitalizer(e)).join(", "));
+      setPokemonArea(locationNames.map((e) => Capitalizer(e)).join(", "));
 
       const abilities = pokemonData.abilities.map((e) => {
         return e.ability.name;
       });
-      setPokemonAbilities(abilities.map(e => Capitalizer(e)).join(", "));
+      setPokemonAbilities(abilities.map((e) => Capitalizer(e)).join(", "));
 
       const moves = pokemonData.moves.map((e) => {
         return e.move.name;
       });
-      setPokemonMoves(moves.map(e => Capitalizer(e)).join(", "));
+      setPokemonMoves(moves.map((e) => Capitalizer(e)).join(", "));
 
       const types = pokemonData.types.map((e) => {
         return Capitalizer(e.type.name);
@@ -118,7 +130,9 @@ const UnovaDexComponent = (props: IQueryProps) => {
               });
             } else {
               return (
-                Capitalizer(pokemonEvolutions.chain.species.name) + " -> " + Capitalizer(e.species.name)
+                Capitalizer(pokemonEvolutions.chain.species.name) +
+                " -> " +
+                Capitalizer(e.species.name)
               );
             }
           });
@@ -126,8 +140,6 @@ const UnovaDexComponent = (props: IQueryProps) => {
           return [Capitalizer(pokemonEvolutions.chain.species.name)];
         }
       };
-
-      console.log(secondChain());
 
       setEvolutionJsx(
         secondChain().map((e, idx) => {
