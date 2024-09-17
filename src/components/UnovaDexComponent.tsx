@@ -62,7 +62,7 @@ const UnovaDexComponent = (props: IQueryProps) => {
   }, [props.query, setData]);
 
   useEffect(() => {
-    if (pokemonData && encounterData) {
+    if (pokemonData && encounterData && pokemonData.sprites) {
       setPokemonName(pokemonData.name);
       setPokemonID(pokemonData.id);
       setPokemonArt(
