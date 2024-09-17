@@ -35,11 +35,9 @@ const DexFetchComponent = (props: IPokeProps) => {
           </p>
         </div>
         <div className="bg-white p-5 overflow-y-auto">
-          <p>
             Evolution Line: 
             <br />
             <span>{props.pokemonEvolutions}</span>
-          </p>
         </div>
         <div className="bg-neutral-300 overflow-y-auto max-h-32 p-5">
           <p>

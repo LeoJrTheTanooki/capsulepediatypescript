@@ -1,14 +1,15 @@
 import { DarkThemeToggle, Flowbite } from "flowbite-react";
-import React from "react";
+import React, { useState } from "react";
+import { IQueryProps } from "../Interfaces/Interfaces";
 
-const NavbarComponent = () => {
+
+
+const NavbarComponent = (props: IQueryProps) => {
   return (
     <Flowbite>
       <nav className="bg-gradient-to-b from-neutral-500 to-black to-40% border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <button
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
+          <button className="flex items-center space-x-3 rtl:space-x-reverse">
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
               Capsulepedia
             </span>
@@ -85,10 +86,16 @@ const NavbarComponent = () => {
                   />
                 </svg>
               </div>
+
+              {/* Mobile Input */}
               <input
                 type="text"
                 className="pokemonInput block w-full p-2 ps-10 text-sm border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search..."
+                onChange={(e) => {
+                  props.setQuery(e.target.value);
+                }}
+                value={props.query}
               />
             </div>
             <div className="relative hidden md:block mx-5">
@@ -110,10 +117,16 @@ const NavbarComponent = () => {
                 </svg>
                 <span className="sr-only">Search icon</span>
               </div>
+
+              {/* Desktop Input */}
               <input
                 type="text"
                 className="pokemonInput block w-full p-2 ps-10 text-sm border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search..."
+                onChange={(e) => {
+                  props.setQuery(e.target.value);
+                }}
+                value={props.query}
               />
             </div>
             <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 border-gray-700 text-center">

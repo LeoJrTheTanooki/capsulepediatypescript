@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   IChainLink,
   IEvolutionChain,
   ILocationAreaEncounter,
+  IQueryProps,
   IPokemon,
   ISpecies,
 } from "../Interfaces/Interfaces";
 import { apiFetch } from "../Dataservices/DataServices";
 import DexFetchComponent from "./DexFetchComponent";
 
-const UnovaDexComponent = () => {
-  const [query, setQuery] = useState<string>("eevee");
+const UnovaDexComponent = (props: IQueryProps) => {
   const [pokemonData, setPokemonData] = useState<IPokemon>();
   const [speciesData, setSpeciesData] = useState<ISpecies>();
   const [encounterData, setEncounterData] =
@@ -20,7 +20,7 @@ const UnovaDexComponent = () => {
   const [pokemonID, setPokemonID] = useState<string>("");
   const [pokemonType, setPokemonType] = useState<any>();
   const [pokemonEvolutions, setPokemonEvolutions] = useState<IEvolutionChain>();
-  const [evolutionJsx, setEvolutionJsx] = useState<any>()
+  const [evolutionJsx, setEvolutionJsx] = useState<any>();
   const [pokemonArea, setPokemonArea] = useState<any>();
   const [pokemonAbilities, setPokemonAbilities] = useState<any>();
   const [pokemonMoves, setPokemonMoves] = useState<any>();
@@ -32,31 +32,34 @@ const UnovaDexComponent = () => {
     return data;
   };
 
-  const setData = async (
-    setParam: React.Dispatch<any>,
-    api: string,
-    query: string = "",
-    endpoint: string = "",
-    logToConsole: boolean = false
-  ) => {
-    try {
-      const dataToSet = await dataFetch(api + query + endpoint);
-      setParam(dataToSet);
-      if (logToConsole) console.log(dataToSet);
-    } catch (error) {
-      console.error("An error has occured", error);
-    }
-  };
+  const setData = useCallback(
+    async (
+      setParam: React.Dispatch<any>,
+      api: string,
+      query: string = "",
+      endpoint: string = "",
+      logToConsole: boolean = false
+    ) => {
+      try {
+        const dataToSet = await dataFetch(api + query + endpoint);
+        setParam(dataToSet);
+        if (logToConsole) console.log(dataToSet);
+      } catch (error) {
+        console.error("An error has occured", error);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
-    setData(setPokemonData, "https://pokeapi.co/api/v2/pokemon/", query);
+    setData(setPokemonData, "https://pokeapi.co/api/v2/pokemon/", props.query);
     setData(
       setEncounterData,
       "https://pokeapi.co/api/v2/pokemon/",
-      query,
+      props.query,
       "/encounters"
     );
-  }, []);
+  }, [props.query, setData]);
 
   useEffect(() => {
     if (pokemonData && encounterData) {
@@ -88,7 +91,7 @@ const UnovaDexComponent = () => {
 
       setData(setSpeciesData, pokemonData.species.url, "", "");
     }
-  }, [pokemonData, encounterData]);
+  }, [pokemonData, encounterData, setData]);
 
   useEffect(() => {
     if (speciesData) {
@@ -114,27 +117,10 @@ const UnovaDexComponent = () => {
         });
       setPokemonDexEntry(dexEntries);
     }
-  }, [speciesData]);
-
-  const evolutionChainCheck: any = (e: IChainLink) => {
-    if (e.evolves_to.length > 0) {
-      return {
-        name: e.species.name,
-        evolves_to: e.evolves_to.map((f) => {
-          return evolutionChainCheck(f);
-        }),
-      };
-    } else {
-      return {
-        name: e.species.name,
-        evolves_to: [],
-      };
-    }
-  };
+  }, [setData, speciesData]);
 
   useEffect(() => {
     if (pokemonEvolutions) {
-      // Implement secondChain returns to evolutionChainCheck
       const secondChain = () => {
         if (pokemonEvolutions.chain.evolves_to.length > 0) {
           return pokemonEvolutions.chain.evolves_to.flatMap((e) => {
@@ -159,48 +145,27 @@ const UnovaDexComponent = () => {
         }
       };
 
-      console.log(secondChain())
+      console.log(secondChain());
 
-      setEvolutionJsx(secondChain().map((e) => {
-        return (
-          <>
-          {e}
-          <br />
-          </>
-        )
-      }));
+      setEvolutionJsx(
+        secondChain().map((e, idx) => {
+          return (
+            <div key={idx}>
+              {e}
+              <br />
+            </div>
+          );
+        })
+      );
     }
   }, [pokemonEvolutions]);
 
   return (
     <div className="flex justify-center">
-      {/* 
-      New Rule: Do not format variables before setting them to component
-      Let the component do the formatting
-      */}
       <DexFetchComponent
         pokemonName={pokemonName}
         pokemonID={pokemonID}
         pokemonType={pokemonType}
-        /* 
-        Desired output: Adding species name for every element in array and
-        breaking lines for each different evolution
-
-        Wurmple -> Silcoon -> Beautifly
-        Wurmple -> Cascoon -> Dustox
-
-        Ralts -> Kirlia -> Gardevoir
-        Kirlia -> Gallade
-
-        Eevee -> Jolteon
-        Eevee -> Vaporeon
-        Eevee -> Flareon
-        Eevee -> Umbreon
-        Eevee -> Espeon
-        Eevee -> Glaceon
-        Eevee -> Leafeon
-        Eevee -> Sylveon
-        */
         pokemonEvolutions={evolutionJsx}
         pokemonArea={pokemonArea}
         pokemonAbilities={pokemonAbilities}

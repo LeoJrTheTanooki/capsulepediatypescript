@@ -6,15 +6,18 @@ import UnovaDexComponent from "./components/UnovaDexComponent";
 
 function App() {
 
-    // console.log(PokeApi("https://pokeapi.co/api/v2/pokemon/ditto"));
-    
+    const [queryHook, setQueryHook] = useState('')
 
+    useEffect(() => {
+      
+    console.log(queryHook)
+    }, [queryHook])
     
 
   return (
     <>
-      <NavbarComponent />
-      <UnovaDexComponent/>
+      <NavbarComponent query={queryHook} setQuery={setQueryHook} />
+      <UnovaDexComponent query={queryHook} setQuery={setQueryHook}/>
     </>
   );
 }
