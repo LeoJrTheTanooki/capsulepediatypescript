@@ -12,8 +12,6 @@ const NavbarComponent = (props: IQueryProps) => {
   const [filteredPokemon, setFilteredPokemon] = useState<INamedAPIResource[]>();
   const [inputFocus, setInputFocus] = useState<boolean>(false);
 
-  // Make Query fetch via link rather than name
-  // Remove live search
   // Add favorite Pokemon to localStorage
   // Create new hamburger menu for navbar
   // Create homepage for list of every pokemon up to Gen 5
@@ -26,11 +24,12 @@ const NavbarComponent = (props: IQueryProps) => {
   useEffect(() => {
     setData(
       setAllPokemon,
-      "https://pokeapi.co/api/v2/pokemon/?limit=100000&offset=0"
+      "https://pokeapi.co/api/v2/pokemon/?limit=649&offset=0"
     );
   }, []);
 
   useEffect(() => {
+    console.log(allPokemon);
     if (allPokemon && props.query) {
       setFilteredPokemon(
         allPokemon.results
@@ -41,6 +40,61 @@ const NavbarComponent = (props: IQueryProps) => {
               .includes(props.query.toLowerCase());
           })
           .map((e) => {
+            switch (e.name) {
+              case "deoxys-normal":
+                e.name = "deoxys";
+                // 10001, 10002, 10003
+                break;
+              case "wormadam-plant":
+                e.name = "wormadam";
+                // 10004, 10005
+                break;
+              case "shaymin-land":
+                e.name = "shaymin";
+                // 10006
+                break;
+              case "giratina-altered":
+                e.name = "giratina";
+                // 10007
+                break;
+              case "rotom":
+                e.name = "rotom";
+                // 10008 - 10012
+                break;
+              case "basculin-red-striped":
+                e.name = "basculin";
+                // 10016
+                break;
+              case "darmanitan-standard":
+                e.name = "darmanitan";
+                // 10017
+                break;
+              case "meloetta-aria":
+                e.name = "meloetta";
+                // 10018
+                break;
+              case "tornadus-incarnate":
+                e.name = "tornadus";
+                // 10019
+                break;
+              case "thundurus-incarnate":
+                e.name = "thundurus";
+                // 10020
+                break;
+              case "landorus-incarnate":
+                e.name = "landorus";
+                // 10021
+                break;
+              case "kyurem":
+                e.name = "kyurem";
+                // 10022, 10023
+                break;
+              case "keldeo-ordinary":
+                e.name = "keldeo";
+                // 10024
+                break;
+            }
+
             e.name = e.name
               .replace(new RegExp("-", "gi"), " ")
               .replace(/\b\w/g, (c) => c.toUpperCase());
@@ -59,6 +113,8 @@ const NavbarComponent = (props: IQueryProps) => {
               Capsulepedia
             </span>
           </button>
+
+          {/* Hamburger Menu */}
           <div className="flex">
             <button
               type="button"
@@ -175,15 +231,19 @@ const NavbarComponent = (props: IQueryProps) => {
                 }}
                 value={props.query}
                 onFocus={() => setInputFocus(true)}
-
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") console.log(e);
+                }}
                 onBlur={() => {
-                  setInputFocus(false)
+                  setInputFocus(false);
                 }}
               />
             </div>
             <div
               className={`bg-white absolute flex flex-col mx-5 w-[235px] top-14${
-                !inputFocus ? " hidden hover:block" : ""
+                inputFocus && props.query.length > 0
+                  ? ""
+                  : " hidden hover:block"
               }`}
             >
               {filteredPokemon ? (

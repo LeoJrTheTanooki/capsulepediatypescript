@@ -33,7 +33,7 @@ function App() {
             PokeAPI
           </a>
         </p>
-        <p className="m-1">Version 0.2</p>
+        <p className="m-1">Version 0.23</p>
       </div>
     </div>
   );

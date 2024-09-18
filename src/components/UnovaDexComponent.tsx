@@ -56,34 +56,42 @@ const UnovaDexComponent = (props: IQueryProps) => {
   }, [props.queryLink]);
 
   useEffect(() => {
-    if (pokemonData && encounterData && pokemonData.sprites) {
-      setPokemonName(Capitalizer(pokemonData.name));
-      setPokemonID(pokemonData.id);
-      setPokemonArt(
-        pokemonData.sprites.other["official-artwork"].front_default
-      );
+    if (pokemonData && encounterData) {
+      try {
 
-      const locationNames = encounterData.map((e: ILocationAreaEncounter) => {
-        return e.location_area.name;
-      });
-      setPokemonArea(locationNames.map((e) => Capitalizer(e)).join(", "));
+        
 
-      const abilities = pokemonData.abilities.map((e) => {
-        return e.ability.name;
-      });
-      setPokemonAbilities(abilities.map((e) => Capitalizer(e)).join(", "));
+        setPokemonName(Capitalizer(pokemonData.name));
+        setPokemonID(pokemonData.id);
+        setPokemonArt(
+          pokemonData.sprites.other["official-artwork"].front_default
+        );
 
-      const moves = pokemonData.moves.map((e) => {
-        return e.move.name;
-      });
-      setPokemonMoves(moves.map((e) => Capitalizer(e)).join(", "));
+        const locationNames = encounterData.map((e: ILocationAreaEncounter) => {
+          return e.location_area.name;
+        });
+        setPokemonArea(locationNames.map((e) => Capitalizer(e)).join(", "));
 
-      const types = pokemonData.types.map((e) => {
-        return Capitalizer(e.type.name);
-      });
-      setPokemonType(types);
+        const abilities = pokemonData.abilities.map((e) => {
+          return e.ability.name;
+        });
+        setPokemonAbilities(abilities.map((e) => Capitalizer(e)).join(", "));
 
-      setData(setSpeciesData, pokemonData.species.url, "", "");
+        const moves = pokemonData.moves.map((e) => {
+          return e.move.name;
+        });
+        setPokemonMoves(moves.map((e) => Capitalizer(e)).join(", "));
+
+        const types = pokemonData.types.map((e) => {
+          return Capitalizer(e.type.name);
+        });
+        setPokemonType(types);
+
+        setData(setSpeciesData, pokemonData.species.url, "", "");
+
+
+
+      } catch (error) {}
     }
   }, [pokemonData, encounterData]);
 

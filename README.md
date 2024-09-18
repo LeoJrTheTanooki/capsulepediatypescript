@@ -16,3 +16,4 @@ X Remove live search
 * Create image toggle between sprite and art
 * If allowing future Pokemon, frame missing information as incomplete research
 * Combine similar Pokedex entries
+* Combine Pokemon with multiple forms
