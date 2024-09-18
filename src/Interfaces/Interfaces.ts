@@ -117,11 +117,11 @@ export interface IVersionEncounterDetail {
 
 export interface IPokeProps {
   pokemonArt: string;
-  pokemonDexEntry: string;
+  pokemonDexEntry: React.ReactNode;
   pokemonName: string;
   pokemonID: string;
   pokemonType: Array<string>;
-  pokemonEvolutions: any;
+  pokemonEvolutions: React.ReactNode;
   pokemonArea: string;
   pokemonAbilities: string;
   pokemonMoves: string;

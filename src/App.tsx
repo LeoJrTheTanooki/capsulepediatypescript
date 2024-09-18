@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
-import UnovaDexComponent from "./components/UnovaDexComponent";
+import DexFetchComponent from "./components/DexFetchComponent";
 
 function App() {
   const [queryHook, setQueryHook] = useState<string>("");
@@ -16,7 +16,7 @@ function App() {
         queryLink={queryLinkHook}
         setQueryLink={setQueryLinkHook}
       />
-      <UnovaDexComponent
+      <DexFetchComponent
         query={queryHook}
         setQuery={setQueryHook}
         queryLink={queryLinkHook}
@@ -33,7 +33,7 @@ function App() {
             PokeAPI
           </a>
         </p>
-        <p className="m-1">Version 0.24</p>
+        <p className="m-1">Version 0.25</p>
       </div>
     </div>
   );
