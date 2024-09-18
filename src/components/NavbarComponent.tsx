@@ -12,6 +12,8 @@ const NavbarComponent = (props: IQueryProps) => {
   const [filteredPokemon, setFilteredPokemon] = useState<INamedAPIResource[]>();
   const [inputFocus, setInputFocus] = useState<boolean>(false);
 
+  const [progress, setProgress] = useState<number>(0);
+
   // Add favorite Pokemon to localStorage
   // Create new hamburger menu for navbar
   // Create homepage for list of every pokemon up to Gen 5
@@ -23,6 +25,8 @@ const NavbarComponent = (props: IQueryProps) => {
 
   useEffect(() => {
     setData(
+      progress,
+      setProgress,
       setAllPokemon,
       "https://pokeapi.co/api/v2/pokemon/?limit=649&offset=0"
     );
@@ -105,7 +109,7 @@ const NavbarComponent = (props: IQueryProps) => {
 
   return (
     <Flowbite>
-      <nav className="bg-gradient-to-b from-neutral-500 to-black to-40% border-gray-200">
+      <nav className="bg-gradient-to-b from- from-neutral-500 to-black to-40% border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <button className="flex items-center space-x-3 rtl:space-x-reverse">
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
@@ -113,13 +117,7 @@ const NavbarComponent = (props: IQueryProps) => {
             </span>
           </button>
 
-
-
-          <div
-            className="items-center justify-between flex flex-wrap w-[235px] md:w-auto"
-          >
-
-
+          <div className="items-center justify-between flex flex-wrap w-[235px] md:w-auto">
             {/* Desktop Input */}
             <div className="relative mx-5 w-[235px]">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

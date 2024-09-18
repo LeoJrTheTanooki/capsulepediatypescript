@@ -67,8 +67,13 @@ export interface ISpecies {
   pal_park_encounters: any[];
   flavor_text_entries: IFlavorText[];
   form_descriptions: any[];
-  genera: any[];
+  genera: IGenus[];
   varieties: any[];
+}
+
+export interface IGenus {
+  genus: string;
+  language: ILanguage
 }
 
 export interface IFlavorText {
@@ -117,14 +122,15 @@ export interface IVersionEncounterDetail {
 
 export interface IPokeProps {
   pokemonArt: string;
-  pokemonDexEntry: React.ReactNode;
+  pokemonDexEntry: Array<React.ReactNode>;
   pokemonName: string;
   pokemonID: string;
-  pokemonType: Array<string>;
+  pokemonType: Array<React.ReactNode>;
   pokemonEvolutions: React.ReactNode;
   pokemonArea: string;
   pokemonAbilities: string;
   pokemonMoves: string;
+  pokemonGenus: string;
 }
 
 export interface IQueryProps {

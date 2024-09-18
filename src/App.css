@@ -8,5 +8,9 @@ body{
 }
 
 body{
-    background-image: url(./assets/GridBG.png);
+    background-size: 16px 16px;
+    background-color: #08b57b;
+    background-image:
+      linear-gradient(to right, #008463 2px, transparent 2px),
+      linear-gradient(to bottom, #008463 2px, transparent 2px);
 }

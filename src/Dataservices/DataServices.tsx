@@ -10,6 +10,8 @@ export const dataFetch = async (api: string) => {
 };
 
 export const setData = async (
+    progress: number = 0,
+    setProgress: React.Dispatch<React.SetStateAction<number>> | null = null,
     setParam: React.Dispatch<any>,
     api: string,
     query: string = "",
@@ -20,6 +22,7 @@ export const setData = async (
     try {
       const dataToSet = await dataFetch(api + query + endpoint);
       setParam(dataToSet);
+      if(setProgress) setProgress(progress += 1)
       if (logToConsole) console.log(dataToSet, currentLine > 0 ? `Logged at ${currentLine}` : '');
     } catch (error) {
       console.error("An error has occured", error);

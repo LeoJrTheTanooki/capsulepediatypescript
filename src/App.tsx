@@ -9,7 +9,7 @@ function App() {
   const [queryLinkHook, setQueryLinkHook] = useState<string>("");
 
   return (
-    <div className=" flex flex-col h-screen">
+    <div className=" flex flex-col h-screen h-">
       <NavbarComponent
         query={queryHook}
         setQuery={setQueryHook}
@@ -33,7 +33,7 @@ function App() {
             PokeAPI
           </a>
         </p>
-        <p className="m-1">Version 0.25</p>
+        <p className="m-1">Version 0.29</p>
       </div>
     </div>
   );
