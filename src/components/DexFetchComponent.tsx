@@ -23,16 +23,17 @@ const DexFetchComponent = (props: IQueryProps) => {
   const [pokemonArea, setPokemonArea] = useState<string>("");
   const [pokemonAbilities, setPokemonAbilities] = useState<string>("");
   const [pokemonMoves, setPokemonMoves] = useState<string>("");
-  const [pokemonDexEntry, setPokemonDexEntry] = useState<Array<React.ReactNode>>([]);
+  const [pokemonDexEntry, setPokemonDexEntry] = useState<
+    Array<React.ReactNode>
+  >([]);
   const [pokemonArt, setPokemonArt] = useState<string>("");
   const [pokemonGenus, setPokemonGenus] = useState<string>("");
 
-  const [progress, setProgress] = useState<number>(0)
+  const [progress, setProgress] = useState<number>(0);
 
   useEffect(() => {
-    console.log(progress)
-  }, [progress])
-  
+    // console.log(progress)
+  }, [progress]);
 
   function Capitalizer(param: string) {
     param = param
@@ -43,7 +44,7 @@ const DexFetchComponent = (props: IQueryProps) => {
 
   // useEffect(() => {
   //   setData(progress, setProgress, setPokemonData, "https://pokeapi.co/api/v2/pokemon/", props.query);
-  //   setData(progress, setProgress, 
+  //   setData(progress, setProgress,
   //     setEncounterData,
   //     "https://pokeapi.co/api/v2/pokemon/",
   //     props.query,
@@ -53,9 +54,15 @@ const DexFetchComponent = (props: IQueryProps) => {
 
   useEffect(() => {
     if (props.queryLink) {
-      setProgress(0)
+      setProgress(0);
       setData(progress, setProgress, setPokemonData, props.queryLink);
-      setData(progress, setProgress, setEncounterData, props.queryLink, "/encounters");
+      setData(
+        progress,
+        setProgress,
+        setEncounterData,
+        props.queryLink,
+        "/encounters"
+      );
     }
   }, [props.queryLink]);
 
@@ -141,7 +148,14 @@ const DexFetchComponent = (props: IQueryProps) => {
         });
         setPokemonType(types);
 
-        setData(progress, setProgress, setSpeciesData, pokemonData.species.url, "", "");
+        setData(
+          progress,
+          setProgress,
+          setSpeciesData,
+          pokemonData.species.url,
+          "",
+          ""
+        );
       } catch (error) {}
     }
   }, [pokemonData, encounterData]);
@@ -153,15 +167,14 @@ const DexFetchComponent = (props: IQueryProps) => {
           return e.language.name === "en";
         })!.genus
       );
-
-      // Nest a for loop within the map to check if future entries are equal to the current one.
-      // EX: for (let j = idx + 1; j > flavor_text_entries.length(); j++)
-      // If so add to the current version name by e.version.name += `, ${flavor_text_entries[j].version.name}`
-      // Afterwards, splice the array by flavor_text_entries[j] to erase the one entry
-      // Hope the for loop doesn't exceed and error out
-      // If so, turn .length() into a let variable and subtract from it by 1
-
-      setData(progress, setProgress, setPokemonEvolutions, speciesData.evolution_chain.url, "", "");
+      setData(
+        progress,
+        setProgress,
+        setPokemonEvolutions,
+        speciesData.evolution_chain.url,
+        "",
+        ""
+      );
       const dexEntries = speciesData.flavor_text_entries
         .filter((e) => {
           return (
@@ -172,7 +185,14 @@ const DexFetchComponent = (props: IQueryProps) => {
               e.version.name === "white-2")
           );
         })
-        .map((e, idx) => {
+        .map((e, idx, array) => {
+          for (let j = idx + 1; j < array.length; j++) {
+            if (array[j].flavor_text === e.flavor_text) {
+              e.version.name += `, ${array[j].version.name}`;
+              array.splice(j, 1);
+              j -= 1;
+            }
+          }
           return (
             <div className=" pb-2" key={idx}>
               <p className="font-bold">{Capitalizer(e.version.name)}</p>

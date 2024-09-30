@@ -21,7 +21,8 @@ function App() {
         setQuery={setQueryHook}
         queryLink={queryLinkHook}
       />
-      <div className="flex justify-between bg-white mt-auto">
+      <nav className="bg-gradient-to-b from- from-neutral-500 to-black to-40% text-white mt-2 border-t-2 border-black">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <p className="m-1">
           API provided by{" "}
           <a
@@ -33,8 +34,9 @@ function App() {
             PokeAPI
           </a>
         </p>
-        <p className="m-1">Version 0.29</p>
-      </div>
+        <p className="m-1">Version 0.3</p>
+        </div>
+      </nav>
     </div>
   );
 }

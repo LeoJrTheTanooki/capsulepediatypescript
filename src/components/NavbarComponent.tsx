@@ -34,13 +34,21 @@ const NavbarComponent = (props: IQueryProps) => {
 
   useEffect(() => {
     if (allPokemon && props.query) {
+      // section keeps executing if props.query exists, need to fix, possibly with useContext
+      // console.log('pass')
+
       setFilteredPokemon(
         allPokemon.results
-          .filter((e) => {
-            return e.name
-              .toLowerCase()
-              .replace(new RegExp("-", "gi"), " ")
-              .includes(props.query.toLowerCase());
+          .filter((e, idx) => {
+            const dexNum = idx + 1;
+            if (isNaN(Number(props.query))) {
+              return e.name
+                .toLowerCase()
+                .replace(new RegExp("-", "gi"), " ")
+                .includes(props.query.toLowerCase());
+            } else {
+              return dexNum === Number(props.query);
+            }
           })
           .map((e) => {
             switch (e.name) {
@@ -104,6 +112,70 @@ const NavbarComponent = (props: IQueryProps) => {
             return e;
           })
       );
+    } else if (allPokemon) {
+      setFilteredPokemon(
+        allPokemon.results.map((e) => {
+          switch (e.name) {
+            case "deoxys-normal":
+              e.name = "deoxys";
+              // 10001, 10002, 10003
+              break;
+            case "wormadam-plant":
+              e.name = "wormadam";
+              // 10004, 10005
+              break;
+            case "shaymin-land":
+              e.name = "shaymin";
+              // 10006
+              break;
+            case "giratina-altered":
+              e.name = "giratina";
+              // 10007
+              break;
+            case "rotom":
+              e.name = "rotom";
+              // 10008 - 10012
+              break;
+            case "basculin-red-striped":
+              e.name = "basculin";
+              // 10016
+              break;
+            case "darmanitan-standard":
+              e.name = "darmanitan";
+              // 10017
+              break;
+            case "meloetta-aria":
+              e.name = "meloetta";
+              // 10018
+              break;
+            case "tornadus-incarnate":
+              e.name = "tornadus";
+              // 10019
+              break;
+            case "thundurus-incarnate":
+              e.name = "thundurus";
+              // 10020
+              break;
+            case "landorus-incarnate":
+              e.name = "landorus";
+              // 10021
+              break;
+            case "kyurem":
+              e.name = "kyurem";
+              // 10022, 10023
+              break;
+            case "keldeo-ordinary":
+              e.name = "keldeo";
+              // 10024
+              break;
+          }
+
+          e.name = e.name
+            .replace(new RegExp("-", "gi"), " ")
+            .replace(/\b\w/g, (c) => c.toUpperCase());
+          return e;
+        })
+      );
     }
   }, [allPokemon, props.query]);
 
@@ -148,9 +220,9 @@ const NavbarComponent = (props: IQueryProps) => {
                 }}
                 value={props.query}
                 onFocus={() => setInputFocus(true)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") console.log(e);
-                }}
+                // onKeyDown={(e) => {
+                //   if (e.key === "Enter") console.log(e);
+                // }}
                 onBlur={() => {
                   setInputFocus(false);
                 }}
@@ -158,23 +230,32 @@ const NavbarComponent = (props: IQueryProps) => {
             </div>
 
             <div
-              className={`bg-white absolute flex flex-col mx-5 w-[235px] top-14${
-                inputFocus && props.query.length > 0
-                  ? ""
+              className={`bg-black text-white absolute flex flex-col mx-5 w-[235px] top-14 z-40 max-h-40 overflow-y-auto${
+                inputFocus
+                  ? //  && props.query.length > 0
+                    ""
                   : " hidden hover:block"
               }`}
             >
               {filteredPokemon ? (
                 filteredPokemon?.map((e, idx) => {
+                  // const dexNum = idx + 1;
                   return (
                     <div
                       key={idx}
-                      className="border cursor-pointer hover:bg-neutral-300"
+                      className="border cursor-pointer hover:bg-[#315a10] flex"
                       onClick={() => {
                         setInputFocus(false);
                         if (props.setQueryLink) props.setQueryLink(e.url);
                       }}
                     >
+                      {/* <span className=" w-10">
+                        {dexNum > 99
+                          ? dexNum
+                          : dexNum > 9
+                          ? "0" + dexNum
+                          : "00" + dexNum}
+                      </span> */}
                       {e.name}
                     </div>
                   );

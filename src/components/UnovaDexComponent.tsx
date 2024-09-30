@@ -21,13 +21,15 @@ const UnovaDexComponent = (props: IPokeProps) => {
 
   return (
     <div className="w-full flex flex-wrap gap-5">
-      <div className="mt-4 static w-full">
-        <div className="w-1/2 z-30 absolute right-6">
+      <div className="mt-6 static w-full flex flex-col-reverse lg:flex-col">
+
+        
+        <div className="lg:w-[550px] w-full max-w-[550px] z-30 lg:absolute right-[2.5%] mx-auto mt-16 lg:-mt-3">
           <div className="flex h-8">
             <div className="bg-black w-1/4"></div>
             <img src="/dexcorner2.svg" alt="" />
           </div>
-          <div className="border-2 border-black shadow-lg shadow-black">
+          <div className="border-2 border-black shadow-lg shadow-black h-[600px] bg-white">
             <div className="bg-[#dedede] p-5 flex justify-between">
               <p className="text-2xl">&#8226;{props.pokemonID}</p>
               <p className="text-2xl justify-self-center">
@@ -52,12 +54,12 @@ const UnovaDexComponent = (props: IPokeProps) => {
                   props.pokemonType
                 ) : (
                   <>
-                    <div className="w-20 h-7 border-2 bg-neutral-400 border-neutral-600 animate-pulse"></div>{" "}
+                    <div className="w-20 h-7 border-2 bg-neutral-400 border-neutral-600"></div>{" "}
                   </>
                 )}
               </div>
             </div>
-            <div className="overflow-y-auto max-h-96 bg-white">
+            <div className="overflow-y-auto max-h-96">
               <div className="p-5 bg-white">
                 Evolution Line:
                 <br />
@@ -85,23 +87,24 @@ const UnovaDexComponent = (props: IPokeProps) => {
           </div>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <div className="flex z-20">
             <div className="bg-[#949494] h-16 w-1/4 border-t-2 border-[#103931]"></div>
             <img className="h-16 " src="/dexcorner.svg" alt="" />
           </div>
 
           <div
-            className="bg-[#949494] px-5 h-[475px] outline outline-[#103931] outline-2 z-10"
+            className="bg-[#949494] px-5 h-[475px] outline outline-[#103931] outline-2 z-10 flex justify-center lg:justify-start"
             // style={{
             //   borderWidth: 30,
             //   borderImage:
             //     "repeating-linear-gradient( 90deg, black, black 1%, transparent 1%, transparent 2% 30px) 29",
             // }}
           >
-            <button id="favoriteBtn" className="block ml-auto">
+            <div className=" w-[5%]"></div>
+            {/* <button id="favoriteBtn" className="block ml-auto">
               <img id="starBtn" src="/assets/Unfavorited.png" alt="" />
-            </button>
+            </button> */}
             <img src={props.pokemonArt} alt="N/A" className="text-center" />
           </div>
           <div className="w-full flex justify-end z-20">
