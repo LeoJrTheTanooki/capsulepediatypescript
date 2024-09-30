@@ -30,7 +30,7 @@ const NavbarComponent = (props: IQueryProps) => {
       setAllPokemon,
       "https://pokeapi.co/api/v2/pokemon/?limit=649&offset=0"
     );
-  }, []);
+  }, [progress]);
 
   useEffect(() => {
     if (allPokemon && props.query) {
