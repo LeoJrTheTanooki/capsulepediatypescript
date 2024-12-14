@@ -6,7 +6,7 @@ import {
   IPokemon,
   ISpecies,
 } from "../Interfaces/Interfaces";
-import { setData } from "../Dataservices/DataServices";
+import { getLocalStorage, setData } from "../Dataservices/DataServices";
 import UnovaDexComponent from "./UnovaDexComponent";
 
 const DexFetchComponent = (props: IQueryProps) => {
@@ -30,10 +30,42 @@ const DexFetchComponent = (props: IQueryProps) => {
   const [pokemonGenus, setPokemonGenus] = useState<string>("");
 
   const [progress, setProgress] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFavorite, setIsFavorite] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // console.log(progress)
+    // console.log(progress);
+    if (progress >= 3) {
+      setProgress(0);
+      setIsLoading(false);
+    }
   }, [progress]);
+
+  useEffect(() => {
+    // console.log(isLoading)
+    if (isLoading) {
+      setPokemonName("Loading");
+      setPokemonID("???");
+      setPokemonType([
+        <div className="bg-???-bg border-???-border text-white border-2 font-bold w-20 text-center">
+          ???
+        </div>,
+      ]);
+      setEvolutionJsx("Loading");
+      setPokemonArea("Loading");
+      setPokemonAbilities("Loading");
+      setPokemonMoves("Loading");
+      setPokemonDexEntry([]);
+      setPokemonArt("/unknown.svg");
+      setPokemonGenus("Loading");
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+
+
+
+  }, [isFavorite, isLoading, pokemonID]);
 
   function Capitalizer(param: string) {
     param = param
@@ -41,6 +73,8 @@ const DexFetchComponent = (props: IQueryProps) => {
       .replace(/\b\w/g, (c) => c.toUpperCase());
     return param;
   }
+
+  // Intended for when pressing enter instead of clicking
 
   // useEffect(() => {
   //   setData(progress, setProgress, setPokemonData, "https://pokeapi.co/api/v2/pokemon/", props.query);
@@ -54,7 +88,7 @@ const DexFetchComponent = (props: IQueryProps) => {
 
   useEffect(() => {
     if (props.queryLink) {
-      setProgress(0);
+      setIsLoading(true);
       setData(progress, setProgress, setPokemonData, props.queryLink);
       setData(
         progress,
@@ -71,6 +105,11 @@ const DexFetchComponent = (props: IQueryProps) => {
       try {
         setPokemonName(Capitalizer(pokemonData.name));
         setPokemonID(pokemonData.id);
+        if(getLocalStorage().includes(pokemonData.id)){
+          setIsFavorite(true)
+        } else {
+          setIsFavorite(false)
+        }
         setPokemonArt(
           pokemonData.sprites.other["official-artwork"].front_default
         );
@@ -130,6 +169,8 @@ const DexFetchComponent = (props: IQueryProps) => {
               <li className="border-steel-border"></li>
               <li className="bg-water-bg"></li>
               <li className="border-water-border"></li>
+              <li className="bg-???-bg"></li>
+              <li className="border-???-border"></li>
             </ul>
           );
           const typeBg = `bg-${e.type.name}-bg`;
@@ -147,7 +188,6 @@ const DexFetchComponent = (props: IQueryProps) => {
           );
         });
         setPokemonType(types);
-
         setData(
           progress,
           setProgress,
@@ -259,6 +299,9 @@ const DexFetchComponent = (props: IQueryProps) => {
         pokemonDexEntry={pokemonDexEntry}
         pokemonArt={pokemonArt}
         pokemonGenus={pokemonGenus}
+        isLoading={isLoading}
+        isFavorite={isFavorite}
+        setIsFavorite={setIsFavorite}
       />
     </div>
   );

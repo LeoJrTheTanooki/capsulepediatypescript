@@ -131,6 +131,9 @@ export interface IPokeProps {
   pokemonAbilities: string;
   pokemonMoves: string;
   pokemonGenus: string;
+  isLoading: boolean;
+  isFavorite: boolean | null;
+  setIsFavorite: React.Dispatch<React.SetStateAction<boolean | null>>;
 }
 
 export interface IQueryProps {

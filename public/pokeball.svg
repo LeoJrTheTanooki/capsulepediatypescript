@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="56"
+   height="56"
+   viewBox="0 0 56 56"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer3"
+     transform="translate(26.700188,-5.6435158)"
+     style="stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1">
+    <path
+       style="fill:#ffffff;stroke:#000000;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+       id="path2"
+       d="M 41.677232,52.225755 C 42.016928,52.029631 14.037723,52.02963 14.377419,52.225754 14.717116,52.421878 0.72751429,28.191174 0.72751427,28.583422 0.72751425,28.97567 14.717118,4.744968 14.377422,4.941092 c -0.339697,0.1961239 27.639509,0.1961253 27.299812,1.3e-6 -0.339697,-0.196124 13.649905,24.0345797 13.649905,23.6423317 0,-0.392248 -13.989604,23.838454 -13.649907,23.64233 z"
+       transform="translate(-26.727515,5.0600922)" />
+    <g
+       id="layer1"
+       transform="translate(-27.033421,5.3102829)">
+      <circle
+         style="display:inline;fill:#1a1a1a;fill-opacity:1;stroke:#103931;stroke-width:0;stroke-dasharray:none"
+         id="inside"
+         cx="28.333233"
+         cy="28.333233"
+         r="15.333233" />
+      <path
+         style="fill:#f9f9f9;stroke:#103931;stroke-width:0;stroke-dasharray:none"
+         id="bottom-lid"
+         d="m 42.283952,29.205152 a 13.950719,13.078799 0 0 1 -6.97536,11.326572 13.950719,13.078799 0 0 1 -13.950719,0 13.950719,13.078799 0 0 1 -6.975359,-11.326572 h 13.950719 z" />
+      <path
+         style="fill:#ff0000;fill-opacity:1;stroke:#103931;stroke-width:0;stroke-dasharray:none"
+         id="top-lid"
+         d="m 42.283952,27.461312 a 13.950719,13.078799 0 0 0 -6.97536,-11.326572 13.950719,13.078799 0 0 0 -13.950719,0 13.950719,13.078799 0 0 0 -6.975359,11.326572 h 13.950719 z" />
+      <circle
+         style="display:inline;fill:#1a1a1a;fill-opacity:1;stroke:#103931;stroke-width:0;stroke-dasharray:none"
+         id="button-outline"
+         cx="28.333233"
+         cy="28.333233"
+         r="5.2515669" />
+      <circle
+         style="display:inline;fill:#f9f9f9;fill-opacity:1;stroke:#103931;stroke-width:0;stroke-dasharray:none"
+         id="button"
+         cx="28.333233"
+         cy="28.333233"
+         r="3.9964161" />
+    </g>
+  </g>
+</svg>

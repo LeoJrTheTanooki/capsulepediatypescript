@@ -1,8 +1,10 @@
+import flowbite from "flowbite-react/tailwind";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
     "node_modules/flowbite-react/lib/esm/**/*.js",
+    flowbite.content(),
   ],
   theme: {
     extend: {
@@ -43,8 +45,10 @@ module.exports = {
         "steel-border": "#525252",
         "water-bg": "#399cff",
         "water-border": "#425294",
+        "???-bg": "#68a090",
+        "???-border": "#206860",
       },
     },
   },
-  plugins: [require("flowbite/plugin")],
+  plugins: [require("flowbite/plugin"), flowbite.plugin()],
 };

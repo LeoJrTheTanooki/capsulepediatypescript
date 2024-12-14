@@ -1,16 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 html,
-body{
-    height: 100%;
+body {
+  height: 100%;
+  font-family: "Roboto Condensed", sans-serif;
+  text-shadow: 1px 1px gray;
 }
 
-body{
-    background-size: 16px 16px;
-    background-color: #08b57b;
-    background-image:
-      linear-gradient(to right, #008463 2px, transparent 2px),
-      linear-gradient(to bottom, #008463 2px, transparent 2px);
+body {
+  background-size: 16px 16px;
+  background-color: #08b57b;
+  background-image: linear-gradient(to right, #008463 2px, transparent 2px),
+    linear-gradient(to bottom, #008463 2px, transparent 2px);
 }
+
+.polygon {
+  clip-path: polygon(
+    100% 50%,
+    75% 93.3%,
+    25% 93.3%,
+    0% 50%,
+    25% 6.7%,
+    75% 6.7%
+  );
+}
+

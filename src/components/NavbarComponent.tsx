@@ -1,16 +1,23 @@
-import { Flowbite } from "flowbite-react";
+import { Flowbite, Drawer, DrawerHeader } from "flowbite-react";
 import {
   INamedAPIResource,
   INamedAPIResourceList,
+  IPokemon,
   IQueryProps,
 } from "../Interfaces/Interfaces";
 import { useEffect, useState } from "react";
-import { setData } from "../Dataservices/DataServices";
+import {
+  dataFetch,
+  getLocalStorage,
+  setData,
+} from "../Dataservices/DataServices";
 
 const NavbarComponent = (props: IQueryProps) => {
   const [allPokemon, setAllPokemon] = useState<INamedAPIResourceList>();
   const [filteredPokemon, setFilteredPokemon] = useState<INamedAPIResource[]>();
   const [inputFocus, setInputFocus] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [favoritesJsx, setFavoritesJsx] = useState<any[]>();
 
   const [progress, setProgress] = useState<number>(0);
 
@@ -179,6 +186,27 @@ const NavbarComponent = (props: IQueryProps) => {
     }
   }, [allPokemon, props.query]);
 
+  useEffect(() => {
+    if (isOpen) {
+      const asyncFunc = async () => {
+        const favoritesList = await Promise.all(
+          getLocalStorage().map(async (e: any, idx: number) => {
+            const favoriteData: IPokemon = await dataFetch(
+              "https://pokeapi.co/api/v2/pokemon/" + e
+            );
+            return (
+              <li key={idx}>
+                {e} {favoriteData.name}
+              </li>
+            );
+          })
+        );
+        setFavoritesJsx(favoritesList);
+      };
+      asyncFunc();
+    }
+  }, [isOpen]);
+
   return (
     <Flowbite>
       <nav className="bg-gradient-to-b from- from-neutral-500 to-black to-40% border-gray-200">
@@ -282,11 +310,12 @@ const NavbarComponent = (props: IQueryProps) => {
               </li>
               <li>
                 <button
-                  className="py-2 px-3 text-neutral-400 hover:text-white border-neutral-400 border-4 rounded-lg hover:border-white text-center inline-block cursor-not-allowed"
+                  className="py-2 px-3 text-neutral-400 hover:text-white border-neutral-400 border-4 rounded-lg hover:border-white text-center inline-block"
                   data-drawer-target="drawer-example"
                   data-drawer-show="drawer-example"
                   aria-controls="drawer-example"
                   id="getFavoritesBtn"
+                  onClick={() => setIsOpen(true)}
                 >
                   Favorites
                 </button>
@@ -295,6 +324,14 @@ const NavbarComponent = (props: IQueryProps) => {
           </div>
         </div>
       </nav>
+      <Drawer
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className=" bg-slate-200"
+      >
+        <Drawer.Header title="Favorites" titleIcon={() => <></>} />
+        <Drawer.Items>{favoritesJsx}</Drawer.Items>
+      </Drawer>
     </Flowbite>
   );
 };
