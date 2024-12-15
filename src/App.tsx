@@ -9,7 +9,7 @@ function App() {
   const [queryLinkHook, setQueryLinkHook] = useState<string>("");
 
   return (
-    <div className=" flex flex-col h-screen h-">
+    <div className=" flex flex-col h-screen">
       <NavbarComponent
         query={queryHook}
         setQuery={setQueryHook}
@@ -21,6 +21,7 @@ function App() {
         setQuery={setQueryHook}
         queryLink={queryLinkHook}
       />
+      <div className="h-screen"></div>
       <nav className="bg-gradient-to-b from- from-neutral-500 to-black to-40% text-white mt-2 border-t-2 border-black">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <p className="m-1">
@@ -34,7 +35,7 @@ function App() {
             PokeAPI
           </a>
         </p>
-        <p className="m-1">Version 0.35</p>
+        <p className="m-1">Version 0.4</p>
         </div>
       </nav>
     </div>

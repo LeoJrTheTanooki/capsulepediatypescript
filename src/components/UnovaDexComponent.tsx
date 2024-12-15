@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { IPokeProps } from "../Interfaces/Interfaces";
 import {
   getLocalStorage,
@@ -150,7 +149,7 @@ const UnovaDexComponent = (props: IPokeProps) => {
                     props.pokemonType
                   ) : (
                     <>
-                      <div className="w-20 h-7 border-2 bg-neutral-400 border-neutral-600"></div>{" "}
+                      <div className="bg-???-bg border-???-border text-white border-2 font-bold w-20 text-center">???</div>{" "}
                     </>
                   )}
                 </div>
@@ -187,6 +186,7 @@ const UnovaDexComponent = (props: IPokeProps) => {
                     </span>
                   </p>
                 </div>
+                <div className="w-screen"></div>
               </div>
 
               {/* <div className="bg-white flex justify-between text-2xl">HT</div>
@@ -210,12 +210,9 @@ const UnovaDexComponent = (props: IPokeProps) => {
             // }}
           >
             <div className=" xl:w-[5%]"></div>
-            {/* <button id="favoriteBtn" className="block ml-auto">
-              <img id="starBtn" src="/assets/Unfavorited.png" alt="" />
-            </button> */}
-            <div className=" h-[475px]">
+            <div>
               <img
-                src={props.isLoading ? "/unknown.svg" : props.pokemonArt}
+                src={!props.pokemonArt || props.isLoading ? "/unknown.svg" : props.pokemonArt}
                 alt="N/A"
               />
             </div>

@@ -1,3 +1,10 @@
+export const Capitalizer = (param: string) => {
+  param = param
+    .replace(new RegExp("-", "gi"), " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return param;
+}
+
 export const apiFetch = async (api: string) => {
   const response = await fetch(api);
   const data = await response.json();

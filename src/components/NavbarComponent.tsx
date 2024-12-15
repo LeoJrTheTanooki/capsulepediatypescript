@@ -1,4 +1,4 @@
-import { Flowbite, Drawer, DrawerHeader } from "flowbite-react";
+import { Flowbite, Drawer } from "flowbite-react";
 import {
   INamedAPIResource,
   INamedAPIResourceList,
@@ -7,10 +7,78 @@ import {
 } from "../Interfaces/Interfaces";
 import { useEffect, useState } from "react";
 import {
+  Capitalizer,
   dataFetch,
   getLocalStorage,
   setData,
 } from "../Dataservices/DataServices";
+
+const PokemonTile: React.FC<any> = ({ children }) => {
+  const [isHovering, setIsHovering] = useState(false);
+
+  return (
+    <div
+      className="cursor-pointer text-white flex m-1"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <svg
+        width="11.640224"
+        viewBox="0 0 3.0798089 10.037307"
+        version="1.1"
+        id="svg1"
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-full"
+      >
+        <defs id="defs1" />
+        <g id="layer1" transform="translate(-0.03191513)">
+          <path
+            fillOpacity="1"
+            d="M 0.03191513,4.978759 3.1117244,10.037306 V 0 Z"
+            id="path5"
+            className={isHovering ? "fill-[#315a10]" : "fill-black"}
+          />
+        </g>
+      </svg>
+      <div
+        className={
+          " flex w-full content-center " +
+          (isHovering ? "bg-[#315a10]" : "bg-black")
+        }
+      >
+        {children}
+      </div>
+      <svg
+        width="26"
+        viewBox="0 0 6.7445229 10.146332"
+        version="1.1"
+        id="svg1"
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-full"
+      >
+        <defs id="defs1" />
+        <g id="layer1" transform="translate(7.0867523e-4,0.09033897)">
+          <path
+            fillOpacity="1"
+            stroke="none"
+            d="M -7.0867528e-4,10.055992 6.743815,-0.0531965 -7.0867528e-4,-0.09033897 Z"
+            id="path5"
+            className={isHovering ? "fill-[#315a10]" : "fill-black"}
+          />
+        </g>
+      </svg>
+    </div>
+  );
+};
+
+/*
+
+  query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+  queryLink?: string;
+  setQueryLink?: React.Dispatch<React.SetStateAction<string>>;
+
+*/
 
 const NavbarComponent = (props: IQueryProps) => {
   const [allPokemon, setAllPokemon] = useState<INamedAPIResourceList>();
@@ -30,6 +98,8 @@ const NavbarComponent = (props: IQueryProps) => {
   // Create different styles based on older gens
   // If allowing future Pokemon, frame missing information as incomplete research
 
+
+
   useEffect(() => {
     setData(
       progress,
@@ -40,10 +110,8 @@ const NavbarComponent = (props: IQueryProps) => {
   }, [progress]);
 
   useEffect(() => {
+    // section keeps executing and i need to fix that
     if (allPokemon && props.query) {
-      // section keeps executing if props.query exists, need to fix, possibly with useContext
-      // console.log('pass')
-
       setFilteredPokemon(
         allPokemon.results
           .filter((e, idx) => {
@@ -184,20 +252,45 @@ const NavbarComponent = (props: IQueryProps) => {
         })
       );
     }
+
   }, [allPokemon, props.query]);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && props) {
       const asyncFunc = async () => {
         const favoritesList = await Promise.all(
           getLocalStorage().map(async (e: any, idx: number) => {
             const favoriteData: IPokemon = await dataFetch(
               "https://pokeapi.co/api/v2/pokemon/" + e
             );
+
             return (
-              <li key={idx}>
-                {e} {favoriteData.name}
-              </li>
+              <div
+                key={idx}
+                onClick={() => {
+                  if (props.setQueryLink) {
+                    props.setQueryLink(
+                      "https://pokeapi.co/api/v2/pokemon/" + e
+                    );
+                    setIsOpen(false);
+                  }
+                }}
+              >
+                <PokemonTile>
+                  <img
+                    src={
+                      favoriteData.sprites.versions["generation-vii"].icons
+                        .front_default
+                    }
+                    alt=""
+                    className="h-fit w-[40px]"
+                  />
+                  <span className=" w-6 mr-3">
+                    {e > 99 ? e : e > 9 ? "0" + e : "00" + e}
+                  </span>
+                  {Capitalizer(favoriteData.name)}
+                </PokemonTile>
+              </div>
             );
           })
         );
@@ -205,22 +298,54 @@ const NavbarComponent = (props: IQueryProps) => {
       };
       asyncFunc();
     }
-  }, [isOpen]);
+  }, [isOpen, props]);
 
   return (
     <Flowbite>
+
+      <div
+        className={
+          "fixed z-50 overflow-y-auto p-4 transition-transform left-0 top-0 h-screen w-80 text-white " +
+          (isOpen ? "transform-none" : "-translate-x-full")
+        }
+        style={{
+          backgroundSize: "16px 16px",
+          backgroundColor: "#292929",
+          backgroundImage:
+            "linear-gradient(to right, #181818 2px, transparent 2px), linear-gradient(to bottom, #181818 2px, transparent 2px",
+        }}
+      >
+        <div
+          className=" cursor-pointer text-right"
+          onClick={() => {
+            setIsOpen(false);
+          }}
+        >
+          X
+        </div>
+        {favoritesJsx}
+      </div>
+      <div
+        className={
+          "fixed inset-0 z-40 bg-gray-900/50 dark:bg-gray-900/80 " +
+          (isOpen ? "block" : "hidden")
+        }
+        onClick={() => {
+          setIsOpen(false)
+        }}
+      ></div>
       <nav className="bg-gradient-to-b from- from-neutral-500 to-black to-40% border-gray-200">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <button className="flex items-center space-x-3 rtl:space-x-reverse">
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
+          <button className="flex items-center space-x-3 rtl:space-x-reverse w-full md:w-auto">
+            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white w-full md:w-auto">
               Capsulepedia
             </span>
           </button>
 
-          <div className="items-center justify-between flex flex-wrap w-[235px] md:w-auto">
+          <div className="items-center justify-between flex flex-wrap w-full md:w-auto">
             {/* Desktop Input */}
-            <div className="relative mx-5 w-[235px]">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <div className="relative mx-5 my-4 md:my-0 md:w-[235px] w-full">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none w-full md:w-auto">
                 <svg
                   className="w-4 h-4 text-gray-400"
                   aria-hidden="true"
@@ -255,10 +380,8 @@ const NavbarComponent = (props: IQueryProps) => {
                   setInputFocus(false);
                 }}
               />
-            </div>
-
             <div
-              className={`bg-black text-white absolute flex flex-col mx-5 w-[235px] top-14 z-40 max-h-40 overflow-y-auto${
+              className={`bg-black text-white absolute flex flex-col z-40 max-h-40 overflow-y-auto w-full ${
                 inputFocus
                   ? //  && props.query.length > 0
                     ""
@@ -292,8 +415,10 @@ const NavbarComponent = (props: IQueryProps) => {
                 <></>
               )}
             </div>
+            </div>
 
-            <ul className="flex p-0 font-medium rounded-lg rtl:space-x-reverse mt-0 text-center w-full justify-between md:w-auto md:justify-normal">
+
+            <ul className="flex p-0 font-medium rounded-lg rtl:space-x-reverse mt-0 text-center w-full justify-around md:w-auto md:justify-normal md:mx-0 mx-5 gap-5">
               <li>
                 <button
                   className="py-2 px-3 text-neutral-400 hover:text-white border-neutral-400 border-4 rounded-lg hover:border-white text-center inline-block"
@@ -324,14 +449,6 @@ const NavbarComponent = (props: IQueryProps) => {
           </div>
         </div>
       </nav>
-      <Drawer
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        className=" bg-slate-200"
-      >
-        <Drawer.Header title="Favorites" titleIcon={() => <></>} />
-        <Drawer.Items>{favoritesJsx}</Drawer.Items>
-      </Drawer>
     </Flowbite>
   );
 };

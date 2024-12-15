@@ -6,7 +6,7 @@ import {
   IPokemon,
   ISpecies,
 } from "../Interfaces/Interfaces";
-import { getLocalStorage, setData } from "../Dataservices/DataServices";
+import { Capitalizer, getLocalStorage, setData } from "../Dataservices/DataServices";
 import UnovaDexComponent from "./UnovaDexComponent";
 
 const DexFetchComponent = (props: IQueryProps) => {
@@ -34,7 +34,6 @@ const DexFetchComponent = (props: IQueryProps) => {
   const [isFavorite, setIsFavorite] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // console.log(progress);
     if (progress >= 3) {
       setProgress(0);
       setIsLoading(false);
@@ -42,7 +41,6 @@ const DexFetchComponent = (props: IQueryProps) => {
   }, [progress]);
 
   useEffect(() => {
-    // console.log(isLoading)
     if (isLoading) {
       setPokemonName("Loading");
       setPokemonID("???");
@@ -67,12 +65,12 @@ const DexFetchComponent = (props: IQueryProps) => {
 
   }, [isFavorite, isLoading, pokemonID]);
 
-  function Capitalizer(param: string) {
-    param = param
-      .replace(new RegExp("-", "gi"), " ")
-      .replace(/\b\w/g, (c) => c.toUpperCase());
-    return param;
-  }
+  // function Capitalizer(param: string) {
+  //   param = param
+  //     .replace(new RegExp("-", "gi"), " ")
+  //     .replace(/\b\w/g, (c) => c.toUpperCase());
+  //   return param;
+  // }
 
   // Intended for when pressing enter instead of clicking
 
@@ -98,6 +96,7 @@ const DexFetchComponent = (props: IQueryProps) => {
         "/encounters"
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.queryLink]);
 
   useEffect(() => {
@@ -198,6 +197,7 @@ const DexFetchComponent = (props: IQueryProps) => {
         );
       } catch (error) {}
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pokemonData, encounterData]);
 
   useEffect(() => {
@@ -243,6 +243,7 @@ const DexFetchComponent = (props: IQueryProps) => {
         });
       setPokemonDexEntry(dexEntries);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speciesData]);
 
   useEffect(() => {

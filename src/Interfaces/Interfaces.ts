@@ -30,6 +30,13 @@ export interface IPokemon {
         front_shiny: string;
       };
     };
+    versions: {
+      "generation-vii": {
+        icons: {
+          front_default: string;
+        }
+      }
+    }
   };
 
   // Links outside the JSON
