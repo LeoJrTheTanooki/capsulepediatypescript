@@ -65,13 +65,6 @@ const DexFetchComponent = (props: IQueryProps) => {
 
   }, [isFavorite, isLoading, pokemonID]);
 
-  // function Capitalizer(param: string) {
-  //   param = param
-  //     .replace(new RegExp("-", "gi"), " ")
-  //     .replace(/\b\w/g, (c) => c.toUpperCase());
-  //   return param;
-  // }
-
   // Intended for when pressing enter instead of clicking
 
   // useEffect(() => {
